@@ -11,14 +11,21 @@ namespace WebFilesDownload
 {
     public partial class frmMain : Form
     {
+        //文件数
         private int fileCount = 0;
+        //文件命名规则
         private int fileRule = 0;
+        //请求是否成功
         private bool success = false;
         public frmMain()
         {
             InitializeComponent();
         }
-        //启动下载后台任务
+        /// <summary>
+        /// 启动下载后台任务
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnStart_Click(object sender, EventArgs e)
         {
             fileCount = 1;
@@ -32,13 +39,21 @@ namespace WebFilesDownload
             lbMsg.Invoke(clearMsg, new object[] { "开始下载文件！" });
             bgwDownload.RunWorkerAsync();
         }
-        //取消下载后台任务
+        /// <summary>
+        /// 取消下载后台任务
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnStop_Click(object sender, EventArgs e)
         {
             lbMsg.Items.Add("停止下载文件！");
             bgwDownload.CancelAsync();
         }
-        //后台任务执行
+        /// <summary>
+        /// 后台任务执行
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void bgwDownload_DoWork(object sender, DoWorkEventArgs e)
         {
             //检测是否取消当前任务
@@ -89,7 +104,11 @@ namespace WebFilesDownload
             }
 
         }
-        //进度更新
+        /// <summary>
+        /// 进度更新
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void bgwDownload_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             FileEntity fe = e.UserState as FileEntity;
@@ -98,7 +117,11 @@ namespace WebFilesDownload
                 lbMsg.Items.Add($"开始下载文件{fe.fileName}！");
             }
         }
-        //后台任务完成
+        /// <summary>
+        /// 后台任务完成
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void bgwDownload_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             lbMsg.Items.Add(e.Result.ToString());
